@@ -1,0 +1,28 @@
+Imports System.Runtime.InteropServices
+
+''' <summary>
+''' MessageBox a chiusra Automatica dopo un timeout
+''' </summary>
+''' <example>VRAutoCloseMsgBox.Show("Operazione completata!", "Successo", 5000, MsgBoxStyle.OkOnly or MsgBoxStyle.Exclamation)</example>
+Public Class VRAutoCloseMsgBox
+
+  <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)>
+  Private Shared Function MessageBoxTimeout(
+      hWnd As IntPtr,
+      lpText As String,
+      lpCaption As String,
+      uType As UInteger,
+      wLanguageId As Short,
+      dwMilliseconds As Integer) As Integer
+  End Function
+
+  ''' <summary>
+  ''' Mostra un messaggio con timeout automatico.
+  ''' </summary>
+  Public Shared Sub Show(Prompt As String,
+                         Optional Title As String = "",
+                         Optional TimeoutMs As Integer = 3000,
+                         Optional Buttons As MsgBoxStyle = Nothing)
+    MessageBoxTimeout(IntPtr.Zero, Prompt, Title, Buttons, 0, TimeoutMs)
+  End Sub
+End Class
